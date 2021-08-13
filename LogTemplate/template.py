@@ -22,7 +22,7 @@ def get_peeler(peelerpath):
         try:
             peeler = json.loads(line)
         except ValueError:
-            print "--->Input file format error!"
+            print("--->Input file format error!")
             sys.exit(1)
     return peeler       
 
@@ -91,7 +91,7 @@ def transform_regex(template):
         
         
 def build_template(logfilepath, vocabulary, support, peeler):
-    voc_by_sup = {k:v for (k,v) in vocabulary.iteritems() if v >= support}
+    voc_by_sup = {k:v for (k,v) in vocabulary.items() if v >= support}
     outer_delimiter = peeler["outer_delimiter"]
     inner_delimiter = peeler["inner_delimiter"]
     start = int(peeler["message_start"])
@@ -114,7 +114,7 @@ def build_template(logfilepath, vocabulary, support, peeler):
             if evaluate_template(curr_list):
                 curr_tuple = tuple(curr_list)
                 template[curr_tuple] += 1
-    tem_by_sup = {k:v for (k,v) in template.iteritems() if v >= support}
+    tem_by_sup = {k:v for (k,v) in template.items() if v >= support}
     
     # Filter out short templates who are contained in others
     def not_contained(tem, all_tem):
@@ -142,21 +142,21 @@ def output_template(outputpath, regex, support):
 
 if __name__ == "__main__":
     support, logfilepath, peelerpath = parse_args()
-    
-    print "Retrieve message peeler."
+
+    print("Retrieve message peeler.")
     peeler = get_peeler(peelerpath)
-    
-    print "Build vocabulary."
+
+    print("Build vocabulary.")
     vocabulary = build_vocabulary(logfilepath, peeler)
-     
-    print "Summarize template."
+
+    print("Summarize template.")
     template = build_template(logfilepath, vocabulary, support, peeler)
-     
-    print "Convert to Regex."
+
+    print("Convert to Regex.")
     regex = transform_regex(template)
       
     output_filepath = logfilepath + "_template_" + str(support)
-    print "Write templates to file " + output_filepath + "."
+    print("Write templates to file " + output_filepath + ".")
     output_template(output_filepath, regex, support)
-    
-    print "Done."
+
+    print("Done.")

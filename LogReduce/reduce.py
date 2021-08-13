@@ -21,7 +21,7 @@ def get_peeler(peelerpath):
         try:
             peeler = json.loads(line)
         except ValueError:
-            print "--->Input file format error!"
+            print("--->Input file format error!")
             sys.exit(1)
     return peeler
 
@@ -72,7 +72,7 @@ def output_result(matched_count, matched_tokens, template, output_filepath):
     output_list = []
     for curr_tmp in template:
         set_template[curr_tmp[0]] = curr_tmp[1]
-    for k,v in matched_count.iteritems():        
+    for k,v in matched_count.items():        
         meta_data = {}
         meta_data["id"] = k
         meta_data["count"] = v 
@@ -86,17 +86,17 @@ def output_result(matched_count, matched_tokens, template, output_filepath):
         
 if __name__ == "__main__":
     templatepath, logfilepath, peelerpath = parse_args()
-    
-    print "Retrieve message peeler."
+
+    print("Retrieve message peeler.")
     peeler = get_peeler(peelerpath)
-    
-    print "Load log templates."
+
+    print("Load log templates.")
     template = load_template(templatepath)
-    
-    print "Match log to templates."
+
+    print("Match log to templates.")
     matched_count, matched_tokens = match_template(logfilepath, peeler, template)
     
     output_filepath = logfilepath + "_match_results"
-    print "Write output to file " + output_filepath + "."
+    print("Write output to file " + output_filepath + ".")
     output_result(matched_count, matched_tokens, template, output_filepath)
-    print "Done."
+    print("Done.")
