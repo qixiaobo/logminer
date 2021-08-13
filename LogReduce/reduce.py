@@ -84,7 +84,7 @@ def output_result(matched_count, matched_tokens, template, output_filepath):
         meta_data = {"id": k, "count": v, "template": set_template[k], "tokens": matched_tokens[k]}
         output_list.append(meta_data)
     sorted_result = sorted(output_list, key=lambda x: x["id"])
-    output_json = json.dumps(sorted_result, sort_keys=True, indent=4, separators=(',', ': '))
+    output_json = json.dumps(sorted_result, sort_keys=True, indent=4, separators=(',', ': '),ensure_ascii=False)
     with open(output_filepath, 'w') as fout:
         fout.write(output_json)
 

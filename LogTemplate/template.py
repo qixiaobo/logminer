@@ -146,7 +146,7 @@ def output_template(outputpath, regex, support):
         temp_item["id"] = temp_id
         temp_item["template"] = v
         output_list.append(temp_item)
-    output_json = json.dumps(output_list, sort_keys=True, indent=4, separators=(',', ': '))
+    output_json = json.dumps(output_list, sort_keys=True, indent=4, separators=(',', ': '),ensure_ascii=False)
     with open(outputpath, 'w') as fout:
         fout.write(output_json)
 
