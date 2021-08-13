@@ -13,4 +13,4 @@ if __name__ == "__main__":
     outer_delimiter, log_line = parse_arg()
     split_line = log_line.split(outer_delimiter)
     for i in range(len(split_line)):
-        print "|" +str(i) + "|:" + split_line[i],
+        print("|" + str(i) + "|:" + split_line[i], end=' ')
