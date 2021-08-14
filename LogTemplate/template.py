@@ -3,6 +3,7 @@ import json
 import re
 import sys
 from collections import defaultdict
+
 from stopwords import stpwd, punct
 
 
@@ -118,7 +119,7 @@ def build_template(logfilepath, vocabulary, support, peeler):
             curr_list = []
             for i, token in enumerate(tokens):
                 if (token, i) in voc_by_sup:
-                    curr_list.append((token, i))
+                    curr_list.append((transfer_str(token), i))
             if evaluate_template(curr_list):
                 curr_tuple = tuple(curr_list)
                 template[curr_tuple] += 1
@@ -138,6 +139,16 @@ def build_template(logfilepath, vocabulary, support, peeler):
     return tem_filtered
 
 
+def transfer_str(temp_str):
+    new_str = ""
+    special = "/^$*+?()[]{}."
+    for c in temp_str:
+        if c in special:
+            new_str += '\\'
+        new_str += c
+    return new_str
+
+
 def output_template(outputpath, regex, support):
     output_list = []
     for i, v in enumerate(regex):
@@ -146,7 +157,7 @@ def output_template(outputpath, regex, support):
         temp_item["id"] = temp_id
         temp_item["template"] = v
         output_list.append(temp_item)
-    output_json = json.dumps(output_list, sort_keys=True, indent=4, separators=(',', ': '),ensure_ascii=False)
+    output_json = json.dumps(output_list, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
     with open(outputpath, 'w') as fout:
         fout.write(output_json)
 
