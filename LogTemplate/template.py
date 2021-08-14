@@ -70,7 +70,7 @@ def evaluate_template(template):
         return False
 
 
-def transform_regex(template):
+def transform_regex(template, peeler):
     place_holder = "YLPLACEHOLDER"
     temp_regex = []
     for curr_tem in template:
@@ -89,10 +89,10 @@ def transform_regex(template):
                 temp_list[i] = place_holder
             for curr_token in curr_list:
                 temp_list[curr_token[1]] = curr_token[0]
-            temp_str = " ".join(temp_list)
+            temp_str = peeler["inner_delimiter"].join(temp_list)
         else:
             temp_list = [token[0] for token in curr_list]
-            temp_str = " ".join(temp_list)
+            temp_str = peeler["inner_delimiter"].join(temp_list)
         regex_str = temp_str.replace(place_holder, "(.*)")
         temp_regex.append(regex_str)
     sorted_temp_regex = sorted(temp_regex, key=lambda x: len(x), reverse=True)
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     template = build_template(logfilepath, vocabulary, support, peeler)
 
     print("Convert to Regex.")
-    regex = transform_regex(template)
+    regex = transform_regex(template, peeler)
 
     output_filepath = logfilepath + "_template_" + str(support)
     print("Write templates to file " + output_filepath + ".")
